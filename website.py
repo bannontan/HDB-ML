@@ -157,7 +157,7 @@ if confirm_button:
     # Add labels and title to the plot
     ax.set_xlabel('Year')
     ax.set_ylabel('Resale Price')
-    ax.set_title('Predicted Max and Min Resale Prices for Future Years')
+    ax.set_title(f'Predicted Max and Min Resale Prices for Future Years for {town}')
 
     # Add legend and grid to the plot
     ax.legend()
