@@ -4,6 +4,4 @@ numpy
 matplotlib
 seaborn
 datetime
-sklearn.model_selection
-sklearn.linear_model
-sklearn.preprocessing
+sklearn
