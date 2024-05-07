@@ -100,7 +100,7 @@ town_list = ['town_ANG MO KIO', 'town_BEDOK',
        'town_PUNGGOL', 'town_QUEENSTOWN', 'town_SEMBAWANG', 'town_SENGKANG',
        'town_SERANGOON', 'town_TAMPINES', 'town_TOA PAYOH', 'town_WOODLANDS',
        'town_YISHUN']
-town = st.selectbox("Select a town", ['NIL'] + town_list)
+town = st.selectbox("Select a town", town_list)
 confirm_button = st.button("Confirm")
 
 if confirm_button:
