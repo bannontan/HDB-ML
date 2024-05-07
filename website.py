@@ -128,7 +128,7 @@ if confirm_button:
 
 # df_town_year = prices
 # df_town_year = df_town_year[df_town_year[town] != False]
-    y_town_max = df_town_year["max_resale_price"]
+    y_town_max = df_town["max_resale_price"]
     degree = 3 
     poly_features = PolynomialFeatures(degree=degree)
     x_town_year_poly = poly_features.fit_transform(x_town_year)
@@ -140,7 +140,7 @@ if confirm_button:
 # prices["min_resale_price"] = prices.groupby('year')['resale_price'].transform("min")
 # df_town_year = prices
 # df_town_year = df_town_year[df_town_year[town] != False]
-    y_town_min = df_town_year["min_resale_price"]
+    y_town_min = df_town["min_resale_price"]
     x_town_year_train2, x_town_year_test2, y_town_min_train, y_town_min_test = train_test_split(x_town_year_poly, y_town_min, test_size=0.2, random_state=42)
     town_year_min_model = LinearRegression()
     town_year_min_model.fit(x_town_year_train2, y_town_min_train)
