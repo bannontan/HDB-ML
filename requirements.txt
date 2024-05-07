@@ -1,0 +1,12 @@
+streamlit
+zipfile
+os
+shutil
+pandas
+numpy
+matplotlib.pyplot
+seaborn
+datetime import datetime
+sklearn.model_selection
+sklearn.linear_model
+sklearn.preprocessing
