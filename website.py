@@ -104,6 +104,13 @@ town = st.selectbox("Select a town", town_list)
 confirm_button = st.button("Confirm")
 
 if confirm_button:
+
+    x_town = df_town.drop(["resale_price"], axis=1)
+    y_town = df_town["resale_price"]
+    x_town_year = x_town[["year"]]
+    prices["max_resale_price"] = prices.groupby('year')['resale_price'].transform("max")
+    prices["min_resale_price"] = prices.groupby('year')['resale_price'].transform("min")
+
     if town == 'NIL':
         df_town = prices
         df_town = df_town.drop(['town_ANG MO KIO', 'town_BEDOK',
@@ -123,8 +130,8 @@ if confirm_button:
     x_town = df_town.drop(["resale_price"], axis=1)
     y_town = df_town["resale_price"]
     x_town_year = x_town[["year"]]
-    prices["max_resale_price"] = prices.groupby('year')['resale_price'].transform("max")
-    prices["min_resale_price"] = prices.groupby('year')['resale_price'].transform("min")
+    # prices["max_resale_price"] = prices.groupby('year')['resale_price'].transform("max")
+    # prices["min_resale_price"] = prices.groupby('year')['resale_price'].transform("min")
 
 # df_town_year = prices
 # df_town_year = df_town_year[df_town_year[town] != False]
