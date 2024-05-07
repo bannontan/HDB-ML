@@ -6,7 +6,7 @@ pandas
 numpy
 matplotlib.pyplot
 seaborn
-datetime import datetime
+datetime
 sklearn.model_selection
 sklearn.linear_model
 sklearn.preprocessing
