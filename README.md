@@ -10,6 +10,8 @@ I explored using different models to fit the data and utilized different metrics
 The data were downloaded from Kaggle for HDB housing prices accross various towns from in Singapore 1990-2020. 
 In an attempt to account for inflation, I used the Consumer-Price-Index(CPI) so that the prices will be standardized. This facilitated a more comprehensive comparisons between resale prices over the years.
 
+## More information ##
+
 HDB_ML.ipynb file contains the step by step breakdown of the code and metrics used.
 
 website.py is the code for the Streamlit website. Here is the link for the website: https://bannontan-hdb-ml.streamlit.app/
