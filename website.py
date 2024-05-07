@@ -100,7 +100,7 @@ town_list = ['town_ANG MO KIO', 'town_BEDOK',
        'town_PUNGGOL', 'town_QUEENSTOWN', 'town_SEMBAWANG', 'town_SENGKANG',
        'town_SERANGOON', 'town_TAMPINES', 'town_TOA PAYOH', 'town_WOODLANDS',
        'town_YISHUN']
-town = st.selectbox("Select a town", town_list)
+town = st.selectbox("Select a town", ['NIL'] + town_list)
 confirm_button = st.button("Confirm")
 
 if confirm_button:
@@ -126,6 +126,7 @@ if confirm_button:
     else: 
         df_town = prices
         df_town = df_town[df_town[town] != False]
+        st.write("Hello")
 
     x_town = df_town.drop(["resale_price"], axis=1)
     y_town = df_town["resale_price"]
