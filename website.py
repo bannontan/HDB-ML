@@ -105,6 +105,8 @@ confirm_button = st.button("Confirm")
 
 if confirm_button:
 
+    df_town = prices
+    df_town = df_town[df_town[town] != False]
     x_town = df_town.drop(["resale_price"], axis=1)
     y_town = df_town["resale_price"]
     x_town_year = x_town[["year"]]
