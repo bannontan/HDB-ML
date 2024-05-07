@@ -89,15 +89,17 @@ prices.drop(columns='storey_range', inplace=True)
 prices.drop(columns=['block', 'street_name'], inplace=True)
 prices = pd.get_dummies(prices, columns=['town', 'flat_model'])
 
-st.subheader("ML")
-
+st.subheader("HDB Machine Learning")
+st.write("Trend of Minimum and Maximum resale price of flats in Singapore!")
+st.write("This ML model only has data of HDB housings from 1990-2020. Information >2020 are predicted through the ML model. This model may not be accurate and is purely for academic purposes!")
+st.write("---")
 town_list = ['town_ANG MO KIO', 'town_BEDOK',
        'town_BISHAN', 'town_BUKIT BATOK', 'town_BUKIT MERAH',
        'town_BUKIT PANJANG', 'town_BUKIT TIMAH', 'town_CENTRAL AREA',
        'town_CHOA CHU KANG', 'town_CLEMENTI', 'town_GEYLANG', 'town_HOUGANG',
        'town_JURONG EAST', 'town_JURONG WEST', 'town_KALLANG/WHAMPOA',
        'town_LIM CHU KANG', 'town_MARINE PARADE', 'town_PASIR RIS',
-       'town_PUNGGOL', 'town_QUEENSTOWN', 'town_SEMBAWANG', 'town_SENGKANG',
+       'town_PUNGGOL', 'town_QUEENSTOWN', 'town_SENGKANG',
        'town_SERANGOON', 'town_TAMPINES', 'town_TOA PAYOH', 'town_WOODLANDS',
        'town_YISHUN']
 town = st.selectbox("Select a town", town_list)
@@ -144,7 +146,7 @@ if confirm_button:
     st.title('Predicted Max and Min Resale Prices for Future Years')
 
     # Display the plot using Matplotlib
-    fig, ax = plt.subplots(figsize=(10, 6))
+    fig, ax = plt.subplots(figsize=(8, 4))
 
     # Plot the predicted maximum resale prices
     ax.scatter(x_future, y_future_pred_max, color='red', label='Predicted Maximum')
