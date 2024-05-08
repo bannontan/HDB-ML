@@ -92,6 +92,7 @@ prices = pd.get_dummies(prices, columns=['town', 'flat_model'])
 st.subheader("HDB Machine Learning")
 st.write("Trend of Minimum and Maximum resale price of flats in Singapore!")
 st.write("This ML model only has data of HDB housings from 1990-2020. Information >2020 are predicted through the ML model. This model may not be accurate and is purely for academic purposes!")
+st.markdown("Select NIL and click Confirm for the general trend of resale prices in Singapore")
 st.write("---")
 town_list = ['town_ANG MO KIO', 'town_BEDOK',
        'town_BISHAN', 'town_BUKIT BATOK', 'town_BUKIT MERAH',
