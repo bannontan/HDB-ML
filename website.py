@@ -107,15 +107,7 @@ confirm_button = st.button("Confirm")
 
 if confirm_button:
     if town == 'NIL':
-        df_town = prices.drop(['town_ANG MO KIO', 'town_BEDOK',
-       'town_BISHAN', 'town_BUKIT BATOK', 'town_BUKIT MERAH',
-       'town_BUKIT PANJANG', 'town_BUKIT TIMAH', 'town_CENTRAL AREA',
-       'town_CHOA CHU KANG', 'town_CLEMENTI', 'town_GEYLANG', 'town_HOUGANG',
-       'town_JURONG EAST', 'town_JURONG WEST', 'town_KALLANG/WHAMPOA',
-       'town_LIM CHU KANG', 'town_MARINE PARADE', 'town_PASIR RIS',
-       'town_PUNGGOL', 'town_QUEENSTOWN', 'town_SENGKANG',
-       'town_SERANGOON', 'town_TAMPINES', 'town_TOA PAYOH', 'town_WOODLANDS',
-       'town_YISHUN'], axis = 1)
+        df_town = prices
         x_town = df_town.drop(["resale_price"], axis=1)
         y_town = df_town["resale_price"]
         x_town_year = x_town[["year"]]
