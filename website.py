@@ -102,66 +102,128 @@ town_list = ['town_ANG MO KIO', 'town_BEDOK',
        'town_PUNGGOL', 'town_QUEENSTOWN', 'town_SENGKANG',
        'town_SERANGOON', 'town_TAMPINES', 'town_TOA PAYOH', 'town_WOODLANDS',
        'town_YISHUN']
-town = st.selectbox("Select a town", town_list)
+town = st.selectbox("Select a town", ["NIL"] + town_list)
 confirm_button = st.button("Confirm")
 
 if confirm_button:
+    if town == 'NIL':
+        df_town = prices.drop(['town_ANG MO KIO', 'town_BEDOK',
+       'town_BISHAN', 'town_BUKIT BATOK', 'town_BUKIT MERAH',
+       'town_BUKIT PANJANG', 'town_BUKIT TIMAH', 'town_CENTRAL AREA',
+       'town_CHOA CHU KANG', 'town_CLEMENTI', 'town_GEYLANG', 'town_HOUGANG',
+       'town_JURONG EAST', 'town_JURONG WEST', 'town_KALLANG/WHAMPOA',
+       'town_LIM CHU KANG', 'town_MARINE PARADE', 'town_PASIR RIS',
+       'town_PUNGGOL', 'town_QUEENSTOWN', 'town_SENGKANG',
+       'town_SERANGOON', 'town_TAMPINES', 'town_TOA PAYOH', 'town_WOODLANDS',
+       'town_YISHUN'], axis = 1)
+        x_town = df_town.drop(["resale_price"], axis=1)
+        y_town = df_town["resale_price"]
+        x_town_year = x_town[["year"]]
+        prices["max_resale_price"] = prices.groupby('year')['resale_price'].transform("max")
+        y_town_max = df_town["max_resale_price"]
+        degree = 3 
+        poly_features = PolynomialFeatures(degree=degree)
+        x_town_year_poly = poly_features.fit_transform(x_town_year)
+        x_town_year_train, x_town_year_test, y_town_max_train, y_town_max_test = train_test_split(x_town_year_poly, y_town_max, test_size=0.2, random_state=42)
+        town_year_max_model = LinearRegression()
+        town_year_max_model.fit(x_town_year_train, y_town_max_train)
+        y_pred_town_year = town_year_max_model.predict(x_town_year_test)
 
-    df_town = prices
-    df_town = df_town[df_town[town] != False]
-    x_town = df_town.drop(["resale_price"], axis=1)
-    y_town = df_town["resale_price"]
-    x_town_year = x_town[["year"]]
-    prices["max_resale_price"] = prices.groupby('year')['resale_price'].transform("max")
+        prices["min_resale_price"] = prices.groupby('year')['resale_price'].transform("min")
+        y_town_min = df_town["min_resale_price"]
+        x_town_year_train2, x_town_year_test2, y_town_min_train, y_town_min_test = train_test_split(x_town_year_poly, y_town_min, test_size=0.2, random_state=42)
+        town_year_min_model = LinearRegression()
+        town_year_min_model.fit(x_town_year_train2, y_town_min_train)
+        y_pred_town_year_min = town_year_min_model.predict(x_town_year_test2)
 
-    df_town_year = prices
-    df_town_year = df_town_year[df_town_year[town] != False]
-    y_town_max = df_town_year["max_resale_price"]
-    degree = 3 
-    poly_features = PolynomialFeatures(degree=degree)
-    x_town_year_poly = poly_features.fit_transform(x_town_year)
-    x_town_year_train, x_town_year_test, y_town_max_train, y_town_max_test = train_test_split(x_town_year_poly, y_town_max, test_size=0.2, random_state=42)
-    town_year_max_model = LinearRegression()
-    town_year_max_model.fit(x_town_year_train, y_town_max_train)
-    y_pred_town_year = town_year_max_model.predict(x_town_year_test)
+        future_years = []
+        for _ in range(1990, 2026):
+            future_years.append([_])
+            x_future = np.array(future_years).reshape(-1, 1)
+        x_future_poly = poly_features.fit_transform(x_future)
 
-    prices["min_resale_price"] = prices.groupby('year')['resale_price'].transform("min")
-    df_town_year = prices
-    df_town_year = df_town_year[df_town_year[town] != False]
-    y_town_min = df_town_year["min_resale_price"]
-    x_town_year_train2, x_town_year_test2, y_town_min_train, y_town_min_test = train_test_split(x_town_year_poly, y_town_min, test_size=0.2, random_state=42)
-    town_year_min_model = LinearRegression()
-    town_year_min_model.fit(x_town_year_train2, y_town_min_train)
-    y_pred_town_year_min = town_year_min_model.predict(x_town_year_test2)
+        y_future_pred_max = town_year_max_model.predict(x_future_poly)
+        y_future_pred_min = town_year_min_model.predict(x_future_poly)
 
-    future_years = []
-    for _ in range(1990, 2026):
-        future_years.append([_])
-        x_future = np.array(future_years).reshape(-1, 1)
-    x_future_poly = poly_features.fit_transform(x_future)
+        st.title('Predicted Max and Min Resale Prices for Future Years')
 
-    y_future_pred_max = town_year_max_model.predict(x_future_poly)
-    y_future_pred_min = town_year_min_model.predict(x_future_poly)
+        # Display the plot using Matplotlib
+        fig, ax = plt.subplots(figsize=(8, 4))
 
-    st.title('Predicted Max and Min Resale Prices for Future Years')
+        # Plot the predicted maximum resale prices
+        ax.scatter(x_future, y_future_pred_max, color='red', label='Predicted Maximum')
 
-    # Display the plot using Matplotlib
-    fig, ax = plt.subplots(figsize=(8, 4))
+        # Plot the predicted minimum resale prices
+        ax.scatter(x_future, y_future_pred_min, color='blue', label='Predicted Minimum')
 
-    # Plot the predicted maximum resale prices
-    ax.scatter(x_future, y_future_pred_max, color='red', label='Predicted Maximum')
+        # Add labels and title to the plot
+        ax.set_xlabel('Year')
+        ax.set_ylabel('Resale Price')
+        ax.set_title(f'Predicted Max and Min Resale Prices for Future Years for Singapore')
 
-    # Plot the predicted minimum resale prices
-    ax.scatter(x_future, y_future_pred_min, color='blue', label='Predicted Minimum')
+        # Add legend and grid to the plot
+        ax.legend()
+        ax.grid(True)
 
-    # Add labels and title to the plot
-    ax.set_xlabel('Year')
-    ax.set_ylabel('Resale Price')
-    ax.set_title(f'Predicted Max and Min Resale Prices for Future Years for {town}')
+        # Display the plot in the Streamlit app
+        st.pyplot(fig)
 
-    # Add legend and grid to the plot
-    ax.legend()
-    ax.grid(True)
+    else: 
+        df_town = prices
+        df_town = df_town[df_town[town] != False]
+        x_town = df_town.drop(["resale_price"], axis=1)
+        y_town = df_town["resale_price"]
+        x_town_year = x_town[["year"]]
+        prices["max_resale_price"] = prices.groupby('year')['resale_price'].transform("max")
 
-    # Display the plot in the Streamlit app
-    st.pyplot(fig)
+        df_town_year = prices
+        df_town_year = df_town_year[df_town_year[town] != False]
+        y_town_max = df_town_year["max_resale_price"]
+        degree = 3 
+        poly_features = PolynomialFeatures(degree=degree)
+        x_town_year_poly = poly_features.fit_transform(x_town_year)
+        x_town_year_train, x_town_year_test, y_town_max_train, y_town_max_test = train_test_split(x_town_year_poly, y_town_max, test_size=0.2, random_state=42)
+        town_year_max_model = LinearRegression()
+        town_year_max_model.fit(x_town_year_train, y_town_max_train)
+        y_pred_town_year = town_year_max_model.predict(x_town_year_test)
+
+        prices["min_resale_price"] = prices.groupby('year')['resale_price'].transform("min")
+        df_town_year = prices
+        df_town_year = df_town_year[df_town_year[town] != False]
+        y_town_min = df_town_year["min_resale_price"]
+        x_town_year_train2, x_town_year_test2, y_town_min_train, y_town_min_test = train_test_split(x_town_year_poly, y_town_min, test_size=0.2, random_state=42)
+        town_year_min_model = LinearRegression()
+        town_year_min_model.fit(x_town_year_train2, y_town_min_train)
+        y_pred_town_year_min = town_year_min_model.predict(x_town_year_test2)
+
+        future_years = []
+        for _ in range(1990, 2026):
+            future_years.append([_])
+            x_future = np.array(future_years).reshape(-1, 1)
+        x_future_poly = poly_features.fit_transform(x_future)
+
+        y_future_pred_max = town_year_max_model.predict(x_future_poly)
+        y_future_pred_min = town_year_min_model.predict(x_future_poly)
+
+        st.title('Predicted Max and Min Resale Prices for Future Years')
+
+        # Display the plot using Matplotlib
+        fig, ax = plt.subplots(figsize=(8, 4))
+
+        # Plot the predicted maximum resale prices
+        ax.scatter(x_future, y_future_pred_max, color='red', label='Predicted Maximum')
+
+        # Plot the predicted minimum resale prices
+        ax.scatter(x_future, y_future_pred_min, color='blue', label='Predicted Minimum')
+
+        # Add labels and title to the plot
+        ax.set_xlabel('Year')
+        ax.set_ylabel('Resale Price')
+        ax.set_title(f'Predicted Max and Min Resale Prices for Future Years for {town}')
+
+        # Add legend and grid to the plot
+        ax.legend()
+        ax.grid(True)
+
+        # Display the plot in the Streamlit app
+        st.pyplot(fig)
