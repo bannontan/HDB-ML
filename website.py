@@ -93,13 +93,7 @@ st.subheader("HDB Machine Learning")
 st.write("Trend of Minimum and Maximum resale price of flats in Singapore!")
 st.write("This ML model only has data of HDB housings from 1990-2020. Information >2020 are predicted through the ML model. This model may not be accurate and is purely for academic purposes!")
 st.markdown("Select NIL and click Confirm for the general trend of resale prices in Singapore")
-st.markdown("The flat models considered are: flat_model_2-room, flat_model_Adjoined flat,
-       flat_model_Apartment, flat_model_DBSS,
-       flat_model_Executive Maisonette, flat_model_Improved,
-       flat_model_Maisonette, flat_model_Model A, flat_model_Model A2,
-       flat_model_Multi Generation, flat_model_New Generation,
-       flat_model_Premium Apartment, flat_model_Simplified,
-       flat_model_Standard, flat_model_Terrace, flat_model_Type S1S2")
+st.markdown("The flat models considered are: flat_model_2-room, flat_model_Adjoined flat, flat_model_Apartment, flat_model_DBSS, flat_model_Executive Maisonette, flat_model_Improved, flat_model_Maisonette, flat_model_Model A, flat_model_Model A2, flat_model_Multi Generation, flat_model_New Generation, flat_model_Premium Apartment, flat_model_Simplified, flat_model_Standard, flat_model_Terrace, flat_model_Type S1S2")
 st.write("---")
 town_list = ['town_ANG MO KIO', 'town_BEDOK',
        'town_BISHAN', 'town_BUKIT BATOK', 'town_BUKIT MERAH',
